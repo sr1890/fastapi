@@ -2,6 +2,16 @@
 
 This is a simple web API that built to encode text using the ROT13 cipher. It uses Python with FastAPI and includes user authentication.
 
+## Core Features
+
+- **ROT13 Cipher Encoding**: Simple letter substitution cipher that shifts each letter 13 positions in the alphabet
+- **JWT Authentication**: Secure token-based authentication system with 30-minute token expiration
+- **Rate Limiting**: Built-in protection against API abuse with request throttling
+- **CORS Support**: Cross-origin resource sharing enabled for frontend integration
+- **RESTful API**: Clean, well-documented endpoints following REST principles
+- **Input Validation**: Robust data validation using Pydantic schemas
+- **Health Monitoring**: Built-in health check endpoint for system monitoring
+
 ## What does this project do?
 
 ROT13 is a basic cipher where you replace each letter with the letter 13 positions ahead in the alphabet. So A becomes N, B becomes O, and so on. It's like a simple code that you can easily decode by applying ROT13 again.
