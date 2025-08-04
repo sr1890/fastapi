@@ -1,4 +1,3 @@
-# Simple user storage - just a dictionary for demo
 USERS = {
     "testuser": {
         "id": 1,

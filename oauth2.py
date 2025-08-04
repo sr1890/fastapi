@@ -26,14 +26,14 @@ def verify_token(token: str):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token",
-                headers={"WWW-Authenticate": "Bearer"}
+                headers={"Authenticate": "Bearer"}
             )
         return username
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token",
-            headers={"WWW-Authenticate": "Bearer"}
+            headers={"Authenticate": "Bearer"}
         )
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -44,6 +44,6 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User not found",
-            headers={"WWW-Authenticate": "Bearer"}
+            headers={"Authenticate": "Bearer"}
         )
     return user

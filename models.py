@@ -1,5 +1,4 @@
 from pydantic import BaseModel, field_validator
-
 class TextRequest(BaseModel):
     text: str
 

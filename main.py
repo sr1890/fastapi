@@ -1,5 +1,4 @@
 from fastapi import FastAPI, Depends, Request
-from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from models import TextRequest
 from utils import encodeRot13
@@ -8,27 +7,10 @@ from auth_endpoints import router as auth_router
 from rate_limiter import limiter, rate_limit_handler
 from slowapi.errors import RateLimitExceeded
 
-# Create FastAPI app instance
 app = FastAPI()
 
-# Configure CORS settings
-
-origins = ["*"]  # Allows specific origin, adjust as needed for security
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
-)
-
-# Setup rate limiting
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, rate_limit_handler)
-
-# Include authentication routes
 app.include_router(auth_router)
 
 @app.get("/")

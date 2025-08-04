@@ -38,16 +38,51 @@ I also added rate limiting so people can't make too many requests too quickly an
 
 I also added CORS (Cross-Origin Resource Sharing) middleware to allow the API to be accessed from web browsers running on different domains. This is essential for frontend applications that need to communicate with the API.
 
-## How to use it 
+## How to use it
 
-## Starting the server 
+## Installation & Setup
 
-```
+### Option 1: Local Installation
+
+```bash
 pip install -r requirements.txt
 python main.py
 ```
 
 The server will run on http://localhost:8000
+
+### Option 2: Docker (Recommended)
+
+#### Using Docker Compose (Easiest)
+```bash
+# Clone the repository
+git clone <repository-url>
+cd rot13-fastapi
+
+# Build and run with Docker Compose
+docker-compose up --build
+```
+
+#### Using Docker directly
+```bash
+# Build the Docker image
+docker build -t rot13-api .
+
+# Run the container
+docker run -p 8000:8000 rot13-api
+```
+
+The server will be available at http://localhost:8000
+
+### Option 3: Development with Docker
+```bash
+# For development with auto-reload
+docker-compose up --build
+
+# To rebuild after changes
+docker-compose down
+docker-compose up --build
+```
 
 ### Getting a token
 First, you need to log in:
@@ -80,29 +115,11 @@ You'll get back: `{"result": "URYYB JBEYQ", "user": "testuser"}`
 
 ## Test users
 
-I included two demo users you can use:
-- Username: `testuser`, Password: `testuser123`
-- Username: `admin`, Password: `admin123`
+Demo users are available for testing the authentication system. Check the [`users.py`](users.py) file for available test accounts.
 
 ## The ROT13 algorithm
 
-Here's how I implemented the ROT13 encoding:
-
-```python
-def encodeRot13(input_text):
-    output = ""
-    for letter in input_text:
-        if letter == ' ':
-            output += ' '  # Keep spaces as they are
-        else:
-            pos = ord(letter) - ord('A')  # Get position (A=0, B=1, etc.)
-            new_pos = (pos + 13) % 26     # Add 13 and wrap around
-            new_letter = chr(new_pos + ord('A'))  # Convert back to letter
-            output += new_letter
-    return output
-```
-
-It only works with uppercase letters and spaces. I added validation to make sure people only send the right kind of text.
+The ROT13 implementation handles uppercase letters and spaces, with proper validation to ensure correct input format. The algorithm shifts each letter 13 positions in the alphabet and wraps around when necessary.
 
 ## Dependencies
 
@@ -114,3 +131,79 @@ The main libraries I used:
 - **slowapi** - Rate limiting
 - **python-multipart** - For handling form data in login
 
+
+
+## GitHub Repository
+
+This project is hosted on GitHub. You can:
+
+- **Clone the repository**: `git clone <repository-url>`
+- **Fork the project**: Click the "Fork" button on GitHub to create your own copy
+- **Submit issues**: Report bugs or request features using GitHub Issues
+- **Contribute**: Submit pull requests with improvements or fixes
+
+### Repository Structure
+```
+rot13-fastapi/
+├── main.py              # Main FastAPI application
+├── auth_endpoints.py    # Authentication endpoints
+├── oauth2.py           # JWT token handling
+├── utils.py            # ROT13 cipher implementation
+├── users.py            # User management
+├── models.py           # Data models
+├── schemas.py          # Pydantic schemas
+├── config.py           # Configuration settings
+├── rate_limiter.py     # Rate limiting functionality
+├── requirements.txt    # Python dependencies
+├── Dockerfile          # Docker container configuration
+├── docker-compose.yaml # Docker Compose setup
+└── README.md          # This file
+```
+
+## Docker Information
+
+This project includes Docker support for easy deployment and development.
+
+### Docker Files
+- **[`Dockerfile`](Dockerfile)**: Defines the container image using Python 3.11
+- **[`docker-compose.yaml`](docker-compose.yaml)**: Orchestrates the application container
+
+### Docker Features
+- **Lightweight**: Based on Python 3.11 official image
+- **Port Mapping**: Exposes port 8000 for API access
+- **Easy Deployment**: Single command deployment with Docker Compose
+- **Development Ready**: Supports development workflows
+
+### Docker Commands Reference
+```bash
+# Build the image
+docker build -t rot13-api .
+
+# Run container
+docker run -p 8000:8000 rot13-api
+
+# Using Docker Compose
+docker-compose up --build    # Build and start
+docker-compose down          # Stop and remove containers
+docker-compose logs          # View logs
+```
+
+### Production Deployment
+For production deployment, consider:
+- Using environment variables for configuration
+- Setting up proper logging
+- Implementing health checks
+- Using a reverse proxy (nginx)
+- Setting up SSL/TLS certificates
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).

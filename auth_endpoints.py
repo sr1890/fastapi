@@ -5,7 +5,8 @@ from users import authenticate_user
 from oauth2 import create_access_token
 from rate_limiter import limiter
 
-# Create router for auth endpoints
+# router auth endpoints
+
 router = APIRouter()
 
 @router.post("/login", response_model=Token)
@@ -21,7 +22,6 @@ def user_login(request: Request, credentials: OAuth2PasswordRequestForm = Depend
             detail="Invalid username or password"
         )
     
-    # Create JWT token
     token = create_access_token(data={"username": user["username"]})
     
     return {"access_token": token, "token_type": "bearer"}

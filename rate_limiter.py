@@ -4,7 +4,6 @@ from slowapi.errors import RateLimitExceeded
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-# Simple rate limiter using client IP
 limiter = Limiter(key_func=get_remote_address)
 
 def rate_limit_handler(request: Request, exc: RateLimitExceeded):
